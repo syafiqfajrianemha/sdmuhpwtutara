@@ -267,9 +267,6 @@ $result_program = mysqli_query($conn, "SELECT * FROM program_unggulan ORDER BY i
   width: 300px;
   box-sizing: border-box;
 }
-
-
-
 </style>
 </head>
 <body>
@@ -322,7 +319,7 @@ $result_program = mysqli_query($conn, "SELECT * FROM program_unggulan ORDER BY i
         <i class="fas fa-bars"></i>
       </button>
 
-      <!-- Profil (kanan atas) -->
+     
       <!-- Profil (kanan atas) -->
       <ul class="navbar-nav ms-auto">
         <li class="nav-item dropdown">

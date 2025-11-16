@@ -1,15 +1,16 @@
 <?php
 include 'db.php';  // memanggil koneksi database dari file db.php
 
-$currentPage = 'index.php';
+$currentPage = basename($_SERVER['PHP_SELF']);
 
-$isHome = ($currentPage == 'index.php');
-$isProfil = in_array($currentPage, ['page_sejarah.php', 'page_visimisi.php', 'page_strukturorganis.php']);
-$isBerita = ($currentPage == 'page_berita.php');
-$isPPDB = ($currentPage == 'page_ppdb.php');
-$isPrestasi = ($currentPage == 'page_prestasi.php');
-$isInformasi = in_array($currentPage, ['page_ekstrakulikuler.php', 'page_fasilitas.php', 'page_gurustaff.php', 'page_alumni.php']);
-$isAdmin     = ($currentPage==='login.php');
+// STATUS ACTIVE MENU
+$isHome        = ($currentPage == 'index.php');
+$isProfil      = in_array($currentPage, ['sejarah.php', 'visi-misi.php', 'struktur-organisasi.php']);
+$isBerita      = ($currentPage == 'berita.php');
+$isPPDB        = ($currentPage == 'ppdb.php');
+$isPrestasi    = ($currentPage == 'prestasi.php');
+$isInformasi   = in_array($currentPage, ['ekstrakulikuler.php', 'fasilitas.php', 'guru-dan-staff.php', 'alumni.php']);
+$isAdmin       = ($currentPage == 'login.php');
 
 // Ambil nama sekolah
 $sqlNama = "SELECT nama_sekolah FROM kontak LIMIT 1";
@@ -137,43 +138,46 @@ mysqli_close($conn);
    <link rel="stylesheet" href="style.css">
 </head>
 <body>
- <nav>
+<nav>
   <div class="nav-container">
     <ul>
       <li>
-        <a href="" class="<?= $isHome ? 'active' : '' ?>">HOME</a>
+        <a href="index" class="<?= $isHome ? 'active' : '' ?>">HOME</a>
       </li>
 
       <li>
-  <a href="" class="no-link">PROFIL</a>
-  <ul class="dropdown-menu">
-    <li><a href="page_sejarah">Sejarah</a></li>
-    <li><a href="page_visimisi">Visi dan Misi</a></li>
-    <li><a href="page_strukturorganis">Struktur Organisasi</a></li>
-  </ul>
-</li>
+        <a class="no-link">PROFIL</a>
+        <ul class="dropdown-menu">
+          <li><a href="sejarah" class="<?= $currentPage == 'sejarah.php' ? 'active' : '' ?>">Sejarah</a></li>
+          <li><a href="visi-misi" class="<?= $currentPage == 'visi-misi.php' ? 'active' : '' ?>">Visi dan Misi</a></li>
+          <li><a href="struktur-organisasi" class="<?= $currentPage == 'struktur-organisasi.php' ? 'active' : '' ?>">Struktur Organisasi</a></li>
+        </ul>
+      </li>
 
-      <li><a href="page_berita" class="<?= $isBerita ? 'active' : '' ?>">BERITA</a></li>
-      <li><a href="page_ppdb" class="<?= $isPPDB ? 'active' : '' ?>">PPDB</a></li>
-      <li><a href="page_prestasi" class="<?= $isPrestasi ? 'active' : '' ?>">PRESTASI</a></li>
+      <li><a href="berita" class="<?= $isBerita ? 'active' : '' ?>">BERITA</a></li>
+      <li><a href="ppdb" class="<?= $isPPDB ? 'active' : '' ?>">PPDB</a></li>
+      <li><a href="prestasi" class="<?= $isPrestasi ? 'active' : '' ?>">PRESTASI</a></li>
 
       <li>
-  <a href="" class="<?= 'no-link' . ($isInformasi ? ' parent-active' : '') ?>">INFORMASI</a>
-  <ul class="dropdown-menu">
-    <li><a href="page_ekskul" class="<?= $currentPage == 'ekstrakulikuler.php' ? 'active' : '' ?>">Ekstrakulikuler</a></li>
-    <li><a href="page_fasilitas" class="<?= $currentPage == 'fasilitas.php' ? 'active' : '' ?>">Fasilitas</a></li>
-    <li><a href="page_guru_staff" class="<?= $currentPage == 'guru_staff.php' ? 'active' : '' ?>">Guru dan Staff</a></li>
-    <li><a href="page_alumni" class="<?= $currentPage == 'alumni.php' ? 'active' : '' ?>">Alumni</a></li>
-  </ul>
-</li>
-<li><a href="" class="<?= 'no-link' . ($isAdmin ? ' parent-active' : '') ?>">ADMIN</a>
-<ul class="dropdown-menu">
-  <li><a href="../dashboard_admin/login" class="<?= $currentPage == 'login.php' ? 'active' : '' ?>">Login</a></li>
-</ul>
-</li>
+        <a class="no-link <?= $isInformasi ? 'parent-active' : '' ?>">INFORMASI</a>
+        <ul class="dropdown-menu">
+          <li><a href="ekstrakulikuler" class="<?= $currentPage == 'ekstrakulikuler.php' ? 'active' : '' ?>">Ekstrakulikuler</a></li>
+          <li><a href="fasilitas" class="<?= $currentPage == 'fasilitas.php' ? 'active' : '' ?>">Fasilitas</a></li>
+          <li><a href="guru-dan-staff" class="<?= $currentPage == 'guru-dan-staff.php' ? 'active' : '' ?>">Guru dan Staff</a></li>
+          <li><a href="alumni" class="<?= $currentPage == 'alumni.php' ? 'active' : '' ?>">Alumni</a></li>
+        </ul>
+      </li>
+
+      <li>
+        <a class="no-link <?= $isAdmin ? 'parent-active' : '' ?>">ADMIN</a>
+        <ul class="dropdown-menu">
+          <li><a href="dashboard_admin/login" class="<?= $isAdmin ? 'active' : '' ?>">Login</a></li>
+        </ul>
+      </li>
     </ul>
   </div>
 </nav>
+
 
 
 
@@ -236,7 +240,7 @@ mysqli_close($conn);
         echo htmlspecialchars(limit_words($sejarah['deskripsi'], 40));
         ?>
       </p>
-      <a href="page_sejarah.php" class="btn-selengkapnya">Selengkapnya <span class="arrow">➜</span></a>
+      <a href="sejarah" class="btn-selengkapnya">Selengkapnya <span class="arrow">➜</span></a>
     </div>
   </div>
 </section>
@@ -274,7 +278,7 @@ mysqli_close($conn);
   </div>
 
   <div class="berita-viewall mt-4 text-center">
-    <a href="page_berita.php" class="btn-lihat-semua">View All</a>
+    <a href="berita" class="btn-lihat-semua">View All</a>
   </div>
 </section>
 
@@ -320,7 +324,7 @@ mysqli_close($conn);
   <div class="ekstra-grid">
     <?php foreach ($ekstrakulikuler as $ekstra): ?>
       <div class="ekstra-item">
-        <a href="page_ekskul.php?id=<?= htmlspecialchars($ekstra['id']) ?>">
+        <a href="ekstrakulikuler?id=<?= htmlspecialchars($ekstra['id']) ?>">
         
           <?php 
             if (!empty($ekstra['image'])) {

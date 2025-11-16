@@ -36,7 +36,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $_SESSION['admin_nama'] = $row['nama'];
                 $_SESSION['admin_email'] = $row['email'];
 
-                header("Location: index.php");
+                header("Location: index");
                 exit;
             } else {
                 $error = "Kata sandi salah.";
@@ -50,7 +50,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($error) {
         $_SESSION['error'] = $error;
         $_SESSION['old'] = $old;
-        header("Location: login.php");
+        header("Location: index");
         exit;
     }
 }

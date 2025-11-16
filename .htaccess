@@ -1,9 +1,15 @@
 RewriteEngine On
-RewriteBase /
 
-# Jika URL cocok dengan slug berita
-RewriteRule ^([a-zA-Z0-9-]+)/?$ berita_detail.php?slug=$1 [L,QSA]
-
+# ================================
+# 1. Hilangkan .php
+# ================================
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME}\.php -f
 RewriteRule ^([^/]+)$ $1.php [L]
+
+# ================================
+# 2. Slug Berita
+# ================================
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^([^/]+)$ berita_detail.php?slug=$1 [L,QSA]
