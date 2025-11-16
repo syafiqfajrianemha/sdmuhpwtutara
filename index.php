@@ -357,7 +357,7 @@ mysqli_close($conn);
 <section class="stats-section text-white text-center">
   <div class="container position-relative container-flex">
     <h2 class="section-title fw-bold mb-4">
-      Data Demografi <br> SD Muhammadiyah Purwokerto
+      Data Demografi <br> SD Muhammadiyah Purwokerto Tes
     </h2>
     <div class="stats-items">
       <div class="stat-item">
