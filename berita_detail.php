@@ -462,7 +462,7 @@ nav ul li a.parent-active {
 <section class="berita-detail container">
   <!-- Gambar Berita -->
   <?php if (!empty($berita['foto'])): ?>
-    <img src="/KP/image/berita/<?= htmlspecialchars($berita['foto']) ?>" alt="<?= htmlspecialchars($berita['judul']) ?>" style="max-width:100%; margin: 20px 0;">
+    <img src="image/berita/<?= htmlspecialchars($berita['foto']) ?>" alt="<?= htmlspecialchars($berita['judul']) ?>" style="max-width:100%; margin: 20px 0;">
 
   <?php endif; ?>
 

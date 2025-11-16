@@ -3,3 +3,7 @@ RewriteBase /
 
 # Jika URL cocok dengan slug berita
 RewriteRule ^([a-zA-Z0-9-]+)/?$ berita_detail.php?slug=$1 [L,QSA]
+
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}\.php -f
+RewriteRule ^([^/]+)$ $1.php [L]

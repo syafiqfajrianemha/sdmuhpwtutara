@@ -171,7 +171,7 @@ nav ul li a.parent-active:hover {
   position: absolute;
   top: 0; left: 0;
   width: 100%; height: 100%;
-  background: rgba(0, 0, 0, 0.78); /* atur 0.3 - 0.6 sesuai gelap yang diinginkan */
+  background: rgba(0, 0, 0, 0.82); /* atur 0.3 - 0.6 sesuai gelap yang diinginkan */
   z-index: 2;
 }
 
@@ -187,9 +187,9 @@ nav ul li a.parent-active:hover {
   text-align: center;
   font-weight: 700;
   color: white;
-  text-shadow: 2px 2px 6px rgba(0,0,0,0.6);
+  text-shadow: 2px 2px 6px rgba(0,0,0,0.9);
   font-family: 'Poppins', sans-serif;
-  line-height: 1.5; /* default 1.2 → dijauhin sedikit */
+  line-height: 1.3; /* default 1.2 → dijauhin sedikit */
   letter-spacing: 10px;
   margin: 0;
   font-size: 5rem;
