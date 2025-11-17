@@ -511,7 +511,7 @@ nav ul li a.parent-active {
       <?php foreach ($data['Kepala Sekolah'] as $row): ?>
         <div class="guru-card">
           <div class="guru-image-wrapper">
-            <img src="/sdmuhpwtutara/<?= ltrim($row['image'], './') ?>" alt="<?= htmlspecialchars($row['nama']) ?>">
+            <img src="<?= ltrim($row['image'], './') ?>" alt="<?= htmlspecialchars($row['nama']) ?>">
           </div>
           <div class="guru-info">
             <div class="guru-nama"><?= $row['nama']; ?></div>
@@ -530,7 +530,7 @@ nav ul li a.parent-active {
       <?php foreach ($data['Wakil Kepala Sekolah'] as $row): ?>
         <div class="guru-card">
           <div class="guru-image-wrapper">
-            <img src="/sdmuhpwtutara/<?= ltrim($row['image'], './') ?>" alt="<?= htmlspecialchars($row['nama']) ?>">
+            <img src="<?= ltrim($row['image'], './') ?>" alt="<?= htmlspecialchars($row['nama']) ?>">
           </div>
           <div class="guru-info">
             <div class="guru-nama"><?= $row['nama']; ?></div>
@@ -549,7 +549,7 @@ nav ul li a.parent-active {
       <?php foreach ($data['Staff'] as $row): ?>
         <div class="guru-card">
           <div class="guru-image-wrapper">
-            <img src="/sdmuhpwtutara/<?= ltrim($row['image'], './') ?>" alt="<?= htmlspecialchars($row['nama']) ?>">
+            <img src="<?= ltrim($row['image'], './') ?>" alt="<?= htmlspecialchars($row['nama']) ?>">
           </div>
           <div class="guru-info">
             <div class="guru-nama"><?= $row['nama']; ?></div>
