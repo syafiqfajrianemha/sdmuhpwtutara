@@ -568,7 +568,7 @@ nav ul li a.parent-active {
       <?php foreach ($data['Guru'] as $row): ?>
         <div class="guru-card">
          <div class="guru-image-wrapper">
-            <img src="/sdmuhpwtutara/<?= ltrim($row['image'], './') ?>" alt="<?= htmlspecialchars($row['nama']) ?>">
+            <img src=<?= ltrim($row['image'], './') ?> alt="<?= htmlspecialchars($row['nama']) ?>">
           </div>
           <div class="guru-info">
             <div class="guru-nama"><?= $row['nama']; ?></div>
