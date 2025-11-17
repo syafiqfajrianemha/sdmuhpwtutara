@@ -59,7 +59,7 @@ if (move_uploaded_file($_FILES['image']['tmp_name'], $targetPath)) {
     $stmt->execute();
     $stmt->close();
 
-    header("Location: ekstrakulikuler.php?sukses=added");
+    header("Location: ekstrakulikuler?sukses=added");
     exit;
 }
 
@@ -93,7 +93,7 @@ if (move_uploaded_file($_FILES['image']['tmp_name'], $targetPath)) {
     $stmt->execute();
     $stmt->close();
 
-    header("Location: ekstrakulikuler.php?sukses=updated");
+    header("Location: ekstrakulikuler?sukses=updated");
     exit;
 }
 
@@ -117,7 +117,7 @@ if (isset($_GET['hapus'])) {
     $stmt->execute();
     $stmt->close();
 
-    header("Location: ekstrakulikuler.php?sukses=deleted");
+    header("Location: ekstrakulikuler?sukses=deleted");
     exit;
 }
 ?>
@@ -212,7 +212,7 @@ if (isset($_GET['hapus'])) {
   <div id="sidebar-wrapper" class="p-3">
     <div class="sidebar-heading text-white fw-bold mb-4">Dashboard Admin</div>
     <div class="list-group list-group-flush">
-      <a href="index.php" class="list-group-item list-group-item-action"> <i class="fas fa-home me-2"></i>Home</a>
+      <a href="index" class="list-group-item list-group-item-action"> <i class="fas fa-home me-2"></i>Home</a>
       <a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" 
         data-bs-toggle="collapse" href="#profilMenu">
         <div class="d-flex align-items-center">
@@ -222,13 +222,13 @@ if (isset($_GET['hapus'])) {
       </a>
 
       <div class="collapse" id="profilMenu">
-        <a href="sejarah.php" class="list-group-item list-group-item-action"><i class="fas fa-book me-2"></i>Sejarah</a>
-        <a href="visi_misi.php" class="list-group-item list-group-item-action"><i class="fas fa-lightbulb me-2"></i> Visi dan Misi</a>
-        <a href="struktur_organisasi.php" class="list-group-item list-group-item-action"><i class="fas fa-sitemap me-2"></i>Struktur Organisasi</a>
+        <a href="sejarah" class="list-group-item list-group-item-action"><i class="fas fa-book me-2"></i>Sejarah</a>
+        <a href="visi_misi" class="list-group-item list-group-item-action"><i class="fas fa-lightbulb me-2"></i> Visi dan Misi</a>
+        <a href="struktur_organisasi" class="list-group-item list-group-item-action"><i class="fas fa-sitemap me-2"></i>Struktur Organisasi</a>
       </div>
-      <a href="berita.php" class="list-group-item list-group-item-action"><i class="fas fa-newspaper me-2"></i> Berita</a>
-      <a href="ppdb.php" class="list-group-item list-group-item-action"><i class="fas fa-users me-2"></i> PPDB</a>
-      <a href="prestasi.php" class="list-group-item list-group-item-action"><i class="fas fa-trophy me-2"></i> Prestasi</a>
+      <a href="berita" class="list-group-item list-group-item-action"><i class="fas fa-newspaper me-2"></i> Berita</a>
+      <a href="ppdb" class="list-group-item list-group-item-action"><i class="fas fa-users me-2"></i> PPDB</a>
+      <a href="prestasi" class="list-group-item list-group-item-action"><i class="fas fa-trophy me-2"></i> Prestasi</a>
       <!-- INFORMASI MENU -->
             <a class="list-group-item list-group-item-action d-flex align-items-center" 
           data-bs-toggle="collapse" 
@@ -238,16 +238,17 @@ if (isset($_GET['hapus'])) {
         </a>
 
             <div class="collapse <?= in_array($currentPage, ['ekstrakulikuler.php', 'fasilitas.php', 'guru_staff.php', 'alumni.php']) ? 'show' : '' ?>" id="informasiMenu">
-              <a href="ekstrakulikuler.php" class="list-group-item list-group-item-action <?= ($currentPage == 'ekstrakulikuler.php') ? 'active-page' : '' ?>"><i class="fas fa-swimmer me-2"></i> Ekstrakurikuler</a>
-              <a href="fasilitas.php" class="list-group-item list-group-item-action <?= ($currentPage == 'fasilitas.php') ? 'active-page' : '' ?>"><i class="fas fa-building me-2"></i> Fasilitas</a>
-              <a href="guru_staff.php" class="list-group-item list-group-item-action <?= ($currentPage == 'guru_staff.php') ? 'active-page' : '' ?>"><i class="fas fa-chalkboard-teacher me-2"></i> Guru & Staff</a>
-              <a href="alumni.php" class="list-group-item list-group-item-action <?= ($currentPage == 'alumni.php') ? 'active-page' : '' ?>"><i class="fas fa-user-graduate me-2"></i> Alumni</a>
+              <a href="ekstrakulikuler" class="list-group-item list-group-item-action <?= ($currentPage == 'ekstrakulikuler.php') ? 'active-page' : '' ?>"><i class="fas fa-swimmer me-2"></i> Ekstrakurikuler</a>
+              <a href="fasilitas" class="list-group-item list-group-item-action <?= ($currentPage == 'fasilitas.php') ? 'active-page' : '' ?>"><i class="fas fa-building me-2"></i> Fasilitas</a>
+              <a href="guru_staff" class="list-group-item list-group-item-action <?= ($currentPage == 'guru_staff.php') ? 'active-page' : '' ?>"><i class="fas fa-chalkboard-teacher me-2"></i> Guru & Staff</a>
+              <a href="alumni" class="list-group-item list-group-item-action <?= ($currentPage == 'alumni.php') ? 'active-page' : '' ?>"><i class="fas fa-user-graduate me-2"></i> Alumni</a>
             </div>
-            <a href="kelola_admin.php" class="list-group-item list-group-item-action <?= ($currentPage == 'kelola_admin.php') ? 'active-page' : '' ?>">
+            <a href="kelola_admin" class="list-group-item list-group-item-action <?= ($currentPage == 'kelola_admin.php') ? 'active-page' : '' ?>">
             <i class="fas fa-user-shield me-2"></i> Kelola Admin
           </a>
     </div>
   </div>
+
 
   <!-- Page Content -->
   <div id="page-content-wrapper" class="w-100">
@@ -261,18 +262,18 @@ if (isset($_GET['hapus'])) {
       <!-- Profil (kanan atas) -->
       <ul class="navbar-nav ms-auto">
         <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle text-white" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown">
+            <a class="nav-link dropdown-toggle text-white" id="navbarDropdown" href="" role="button" data-bs-toggle="dropdown">
             <i class="fas fa-user fa-fw" style="color: white;"></i>
             </a>
             <ul class="dropdown-menu dropdown-menu-end shadow">
             <li>
-                <a class="dropdown-item d-flex align-items-center" href="profil_admin.php">
+                <a class="dropdown-item d-flex align-items-center" href="profil_admin">
                 <i class="fas fa-id-card me-2 text-secondary"></i> Profil Saya
                 </a>
             </li>
             <li><hr class="dropdown-divider" /></li>
             <li>
-                <a class="dropdown-item d-flex align-items-center text-danger" href="logout.html">
+                <a class="dropdown-item d-flex align-items-center text-danger" href="logout">
                 <i class="fas fa-sign-out-alt me-2"></i> Logout
                 </a>
             </li>
@@ -338,7 +339,7 @@ if (isset($_GET['hapus'])) {
                     <?= $editData ? 'Update' : 'Tambah' ?>
                 </button>
                 <?php if ($editData): ?>
-                    <a href="ekstrakulikuler.php" class="btn btn-secondary ms-2">Batal</a>
+                    <a href="ekstrakulikuler" class="btn btn-secondary ms-2">Batal</a>
                 <?php endif; ?>
             </form>
         </div>
@@ -370,11 +371,11 @@ if (isset($_GET['hapus'])) {
                     <?php endif; ?>
                 </td>
                 <td class="text-center">
-                  <a href="ekstrakulikuler.php?edit=<?= $row['id'] ?>" 
+                  <a href="ekstrakulikuler?edit=<?= $row['id'] ?>" 
                     class="btn btn-warning btn-sm action-btn me-2">
                     <i class="fas fa-edit me-1"></i>Edit
                   </a>
-                  <a href="ekstrakulikuler.php?hapus=<?= $row['id'] ?>" 
+                  <a href="ekstrakulikuler?hapus=<?= $row['id'] ?>" 
                     onclick="return confirm('Yakin hapus data ini?')" 
                     class="btn btn-danger btn-sm action-btn">
                     <i class="fas fa-trash-alt me-1"></i>Hapus

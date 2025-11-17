@@ -3,7 +3,7 @@ session_start();
 include('../db.php');
 
 if (!isset($_SESSION['admin_id'])) {
-    header("Location: login.php");
+    header("Location: login");
     exit;
 }
 
@@ -61,7 +61,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_SESSION['change_pass_success'] = $msg_success;
     }
 
-    header("Location: change_pass.php");
+    header("Location: change_pass");
     exit;
 }
 ?>

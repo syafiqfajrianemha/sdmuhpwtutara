@@ -21,14 +21,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->bind_param("ssssi", $nama, $tahun_masuk, $tahun_lulus, $pesan, $id);
         $stmt->execute();
 
-        header("Location: alumni.php?sukses=edit");
+        header("Location: alumni?sukses=edit");
     } else {
         // INSERT data baru
         $stmt = $conn->prepare("INSERT INTO alumni (nama, tahun_masuk, tahun_lulus, pesan) VALUES (?, ?, ?, ?)");
         $stmt->bind_param("ssss", $nama, $tahun_masuk, $tahun_lulus, $pesan);
         $stmt->execute();
 
-        header("Location: alumni.php?sukses=tambah");
+        header("Location: alumni?sukses=tambah");
     }
     exit();
 }
@@ -37,7 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 if (isset($_GET['hapus_id'])) {
     $id = $_GET['hapus_id'];
     $conn->query("DELETE FROM alumni WHERE id = $id");
-    header("Location: alumni.php?sukses=hapus");
+    header("Location: alumni?sukses=hapus");
     exit();
 }
 
@@ -133,7 +133,7 @@ if (isset($_GET['edit_id'])) {
   <div id="sidebar-wrapper" class="p-3">
     <div class="sidebar-heading text-white fw-bold mb-4">Dashboard Admin</div>
     <div class="list-group list-group-flush">
-      <a href="index.php" class="list-group-item list-group-item-action"> <i class="fas fa-home me-2"></i>Home</a>
+      <a href="index" class="list-group-item list-group-item-action"> <i class="fas fa-home me-2"></i>Home</a>
       <a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" 
         data-bs-toggle="collapse" href="#profilMenu">
         <div class="d-flex align-items-center">
@@ -143,13 +143,13 @@ if (isset($_GET['edit_id'])) {
       </a>
 
       <div class="collapse" id="profilMenu">
-        <a href="sejarah.php" class="list-group-item list-group-item-action"><i class="fas fa-book me-2"></i>Sejarah</a>
-        <a href="visi_misi.php" class="list-group-item list-group-item-action"><i class="fas fa-lightbulb me-2"></i> Visi dan Misi</a>
-        <a href="struktur_organisasi.php" class="list-group-item list-group-item-action"><i class="fas fa-sitemap me-2"></i>Struktur Organisasi</a>
+        <a href="sejarah" class="list-group-item list-group-item-action"><i class="fas fa-book me-2"></i>Sejarah</a>
+        <a href="visi_misi" class="list-group-item list-group-item-action"><i class="fas fa-lightbulb me-2"></i> Visi dan Misi</a>
+        <a href="struktur_organisasi" class="list-group-item list-group-item-action"><i class="fas fa-sitemap me-2"></i>Struktur Organisasi</a>
       </div>
-      <a href="berita.php" class="list-group-item list-group-item-action"><i class="fas fa-newspaper me-2"></i> Berita</a>
-      <a href="ppdb.php" class="list-group-item list-group-item-action"><i class="fas fa-users me-2"></i> PPDB</a>
-      <a href="prestasi.php" class="list-group-item list-group-item-action"><i class="fas fa-trophy me-2"></i> Prestasi</a>
+      <a href="berita" class="list-group-item list-group-item-action"><i class="fas fa-newspaper me-2"></i> Berita</a>
+      <a href="ppdb" class="list-group-item list-group-item-action"><i class="fas fa-users me-2"></i> PPDB</a>
+      <a href="prestasi" class="list-group-item list-group-item-action"><i class="fas fa-trophy me-2"></i> Prestasi</a>
       <!-- INFORMASI MENU -->
         <a class="list-group-item list-group-item-action d-flex align-items-center" 
           data-bs-toggle="collapse" 
@@ -160,16 +160,17 @@ if (isset($_GET['edit_id'])) {
 
 
         <div class="collapse <?= in_array($currentPage, ['ekstrakulikuler.php', 'fasilitas.php', 'guru_staff.php', 'alumni.php']) ? 'show' : '' ?>" id="informasiMenu">
-          <a href="ekstrakulikuler.php" class="list-group-item list-group-item-action <?= ($currentPage == 'ekstrakulikuler.php') ? 'active-page' : '' ?>"><i class="fas fa-swimmer me-2"></i> Ekstrakurikuler</a>
-          <a href="fasilitas.php" class="list-group-item list-group-item-action <?= ($currentPage == 'fasilitas.php') ? 'active-page' : '' ?>"><i class="fas fa-building me-2"></i> Fasilitas</a>
-          <a href="guru_staff.php" class="list-group-item list-group-item-action <?= ($currentPage == 'guru_staff.php') ? 'active-page' : '' ?>"><i class="fas fa-chalkboard-teacher me-2"></i> Guru & Staff</a>
-          <a href="alumni.php" class="list-group-item list-group-item-action <?= ($currentPage == 'alumni.php') ? 'active-page' : '' ?>"><i class="fas fa-user-graduate me-2"></i> Alumni</a>
+          <a href="ekstrakulikuler" class="list-group-item list-group-item-action <?= ($currentPage == 'ekstrakulikuler.php') ? 'active-page' : '' ?>"><i class="fas fa-swimmer me-2"></i> Ekstrakurikuler</a>
+          <a href="fasilitas" class="list-group-item list-group-item-action <?= ($currentPage == 'fasilitas.php') ? 'active-page' : '' ?>"><i class="fas fa-building me-2"></i> Fasilitas</a>
+          <a href="guru_staff" class="list-group-item list-group-item-action <?= ($currentPage == 'guru_staff.php') ? 'active-page' : '' ?>"><i class="fas fa-chalkboard-teacher me-2"></i> Guru & Staff</a>
+          <a href="alumni" class="list-group-item list-group-item-action <?= ($currentPage == 'alumni.php') ? 'active-page' : '' ?>"><i class="fas fa-user-graduate me-2"></i> Alumni</a>
         </div>
-        <a href="kelola_admin.php" class="list-group-item list-group-item-action <?= ($currentPage == 'kelola_admin.php') ? 'active-page' : '' ?>">
+        <a href="kelola_admin" class="list-group-item list-group-item-action <?= ($currentPage == 'kelola_admin.php') ? 'active-page' : '' ?>">
           <i class="fas fa-user-shield me-2"></i> Kelola Admin
         </a>
     </div>
   </div>
+
 
   <!-- Page Content -->
   <div id="page-content-wrapper" class="w-100">
@@ -182,18 +183,18 @@ if (isset($_GET['edit_id'])) {
       <!-- Profil (kanan atas) -->
       <ul class="navbar-nav ms-auto">
         <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle text-white" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown">
+            <a class="nav-link dropdown-toggle text-white" id="navbarDropdown" href="" role="button" data-bs-toggle="dropdown">
             <i class="fas fa-user fa-fw" style="color: white;"></i>
             </a>
             <ul class="dropdown-menu dropdown-menu-end shadow">
             <li>
-                <a class="dropdown-item d-flex align-items-center" href="profil_admin.php">
+                <a class="dropdown-item d-flex align-items-center" href="profil_admin">
                 <i class="fas fa-id-card me-2 text-secondary"></i> Profil Saya
                 </a>
             </li>
             <li><hr class="dropdown-divider" /></li>
             <li>
-                <a class="dropdown-item d-flex align-items-center text-danger" href="logout.html">
+                <a class="dropdown-item d-flex align-items-center text-danger" href="logout">
                 <i class="fas fa-sign-out-alt me-2"></i> Logout
                 </a>
             </li>
@@ -236,7 +237,7 @@ if (isset($_GET['edit_id'])) {
 
 
       <!-- Form Tambah/Edit -->
-      <form action="alumni.php<?= isset($_GET['edit_id']) ? '?edit_id=' . $_GET['edit_id'] : '' ?>" method="post" class="mb-4 p-3 bg-light rounded shadow-sm">
+      <form action="alumni<?= isset($_GET['edit_id']) ? '?edit_id=' . $_GET['edit_id'] : '' ?>" method="post" class="mb-4 p-3 bg-light rounded shadow-sm">
         <div class="mb-3">
           <label for="nama" class="form-label">Nama:</label>
           <input type="text" name="nama" id="nama" class="form-control" required value="<?= htmlspecialchars($edit_data['nama'] ?? '') ?>">
@@ -255,7 +256,7 @@ if (isset($_GET['edit_id'])) {
         </div>
         <button type="submit" class="btn btn-primary"><?= isset($edit_data) ? 'Simpan Perubahan' : 'Tambah' ?></button>
         <?php if (isset($edit_data)): ?>
-          <a href="alumni.php" class="btn btn-secondary">Batal</a>
+          <a href="alumni" class="btn btn-secondary">Batal</a>
         <?php endif; ?>
       </form>
 
@@ -282,10 +283,10 @@ if (isset($_GET['edit_id'])) {
                   <td><?= htmlspecialchars($row['tahun_lulus']) ?></td>
                   <td><?= nl2br(htmlspecialchars($row['pesan'])) ?></td>
                   <td>
-                    <a href="alumni.php?edit_id=<?= $row['id'] ?>" class="btn btn-sm btn-warning">
+                    <a href="alumni?edit_id=<?= $row['id'] ?>" class="btn btn-sm btn-warning">
                       <i class="fas fa-edit me-1"></i> Edit
                     </a>
-                    <a href="alumni.php?hapus_id=<?= $row['id'] ?>" 
+                    <a href="alumni?hapus_id=<?= $row['id'] ?>" 
                       class="btn btn-sm btn-danger" 
                       onclick="return confirm('Yakin ingin menghapus data ini?')">
                       <i class="fas fa-trash-alt me-1"></i> Hapus

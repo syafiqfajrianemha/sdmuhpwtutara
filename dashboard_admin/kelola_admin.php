@@ -7,7 +7,7 @@ if (isset($_GET['hapus'])) {
     $id = intval($_GET['hapus']);
     $conn->query("DELETE FROM admin WHERE id = $id");
     $_SESSION['flash'] = ['type' => 'danger', 'msg' => 'Akun admin berhasil dihapus.'];
-    header("Location: kelola_admin.php");
+    header("Location: kelola_admin");
     exit;
 }
 
@@ -23,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt->close();
 
     $_SESSION['flash'] = ['type' => 'success', 'msg' => 'Akun admin baru berhasil ditambahkan.'];
-    header("Location: kelola_admin.php");
+    header("Location: kelola_admin");
     exit;
 }
 
@@ -88,7 +88,7 @@ $result = $conn->query("SELECT * FROM admin");
   <div id="sidebar-wrapper" class="p-3">
     <div class="sidebar-heading text-white fw-bold mb-4">Dashboard Admin</div>
     <div class="list-group list-group-flush">
-     <a href="index.php" class="list-group-item list-group-item-action <?= ($currentPage == 'index.php') ? 'active-page' : '' ?>">
+     <a href="index" class="list-group-item list-group-item-action <?= ($currentPage == 'index.php') ? 'active-page' : '' ?>">
       <i class="fas fa-home me-2"></i> Home
     </a>
       <a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" 
@@ -100,29 +100,30 @@ $result = $conn->query("SELECT * FROM admin");
       </a>
 
       <div class="collapse" id="profilMenu">
-        <a href="sejarah.php" class="list-group-item list-group-item-action"><i class="fas fa-book me-2"></i>Sejarah</a>
-        <a href="visi_misi.php" class="list-group-item list-group-item-action"><i class="fas fa-lightbulb me-2"></i> Visi dan Misi</a>
-        <a href="struktur_organisasi.php" class="list-group-item list-group-item-action"><i class="fas fa-sitemap me-2"></i>Struktur Organisasi</a>
+        <a href="sejarah" class="list-group-item list-group-item-action"><i class="fas fa-book me-2"></i>Sejarah</a>
+        <a href="visi_misi" class="list-group-item list-group-item-action"><i class="fas fa-lightbulb me-2"></i> Visi dan Misi</a>
+        <a href="struktur_organisasi" class="list-group-item list-group-item-action"><i class="fas fa-sitemap me-2"></i>Struktur Organisasi</a>
       </div>
-      <a href="berita.php" class="list-group-item list-group-item-action"><i class="fas fa-newspaper me-2"></i> Berita</a>
-      <a href="ppdb.php" class="list-group-item list-group-item-action"><i class="fas fa-users me-2"></i> PPDB</a>
-      <a href="prestasi.php" class="list-group-item list-group-item-action"><i class="fas fa-trophy me-2"></i> Prestasi</a>
+      <a href="berita" class="list-group-item list-group-item-action"><i class="fas fa-newspaper me-2"></i> Berita</a>
+      <a href="ppdb" class="list-group-item list-group-item-action"><i class="fas fa-users me-2"></i> PPDB</a>
+      <a href="prestasi" class="list-group-item list-group-item-action"><i class="fas fa-trophy me-2"></i> Prestasi</a>
       <a class="list-group-item list-group-item-action d-flex align-items-center"
         data-bs-toggle="collapse" data-bs-target="#informasiMenu" role="button" aria-expanded="false">
         <i class="fas fa-info-circle me-2"></i> Informasi <i class="fas fa-caret-down ms-auto"></i>
       </a>
       <div class="collapse" id="informasiMenu">
-        <a href="ekstrakulikuler.php" class="list-group-item list-group-item-action"><i class="fas fa-swimmer me-2"></i> Ekstrakurikuler</a>
-        <a href="fasilitas.php" class="list-group-item list-group-item-action"><i class="fas fa-building me-2"></i> Fasilitas</a>
-        <a href="guru_staff.php" class="list-group-item list-group-item-action"><i class="fas fa-chalkboard-teacher me-2"></i> Guru dan Staff</a>
-        <a href="alumni.php" class="list-group-item list-group-item-action"><i class="fas fa-user-graduate me-2"></i> Alumni</a>
+        <a href="ekstrakulikuler" class="list-group-item list-group-item-action"><i class="fas fa-swimmer me-2"></i> Ekstrakurikuler</a>
+        <a href="fasilitas" class="list-group-item list-group-item-action"><i class="fas fa-building me-2"></i> Fasilitas</a>
+        <a href="guru_staff" class="list-group-item list-group-item-action"><i class="fas fa-chalkboard-teacher me-2"></i> Guru dan Staff</a>
+        <a href="alumni" class="list-group-item list-group-item-action"><i class="fas fa-user-graduate me-2"></i> Alumni</a>
       </div>
-      <a href="kelola_admin.php" class="list-group-item list-group-item-action <?= ($currentPage == 'kelola_admin.php') ? 'active-page' : '' ?>">
+      <a href="kelola_admin" class="list-group-item list-group-item-action <?= ($currentPage == 'kelola_admin.php') ? 'active-page' : '' ?>">
         <i class="fas fa-user-shield me-2"></i> Kelola Admin
       </a>
 
     </div>
   </div>
+
 
   <!-- Page Content -->
   <div id="page-content-wrapper" class="w-100">
@@ -140,13 +141,13 @@ $result = $conn->query("SELECT * FROM admin");
             </a>
             <ul class="dropdown-menu dropdown-menu-end shadow">
             <li>
-                <a class="dropdown-item d-flex align-items-center" href="profil_admin.php">
+                <a class="dropdown-item d-flex align-items-center" href="profil_admin">
                 <i class="fas fa-id-card me-2 text-secondary"></i> Profil Saya
                 </a>
             </li>
             <li><hr class="dropdown-divider" /></li>
             <li>
-                <a class="dropdown-item d-flex align-items-center text-danger" href="logout.html">
+                <a class="dropdown-item d-flex align-items-center text-danger" href="logout">
                 <i class="fas fa-sign-out-alt me-2"></i> Logout
                 </a>
             </li>
@@ -205,7 +206,7 @@ $result = $conn->query("SELECT * FROM admin");
               <td><?= htmlspecialchars($admin['nama']) ?></td>
               <td><?= htmlspecialchars($admin['email']) ?></td>
               <td class="text-center">
-                <a href="kelola_admin.php?hapus=<?= $admin['id'] ?>" 
+                <a href="kelola_admin?hapus=<?= $admin['id'] ?>" 
                    class="btn btn-sm btn-danger"
                    onclick="return confirm('Yakin ingin menghapus admin ini?')">
                    <i class="fas fa-trash-alt"></i> Hapus

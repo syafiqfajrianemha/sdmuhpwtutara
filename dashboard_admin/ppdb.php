@@ -24,7 +24,7 @@ if (isset($_POST['simpan'])) {
     }
 
     // Refresh halaman
-    header("Location: ppdb.php");
+    header("Location: ppdb");
     exit;
 }
 
@@ -115,7 +115,7 @@ $list = $conn->query("SELECT * FROM ppdb ORDER BY updated_at DESC");
   <div id="sidebar-wrapper" class="p-3">
     <div class="sidebar-heading text-white fw-bold mb-4">Dashboard Admin</div>
     <div class="list-group list-group-flush">
-      <a href="index.php" class="list-group-item list-group-item-action"> <i class="fas fa-home me-2"></i> Home</a>
+      <a href="index" class="list-group-item list-group-item-action"> <i class="fas fa-home me-2"></i> Home</a>
       <a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" 
         data-bs-toggle="collapse" href="#profilMenu">
         <div class="d-flex align-items-center">
@@ -125,24 +125,24 @@ $list = $conn->query("SELECT * FROM ppdb ORDER BY updated_at DESC");
       </a>
 
       <div class="collapse" id="profilMenu">
-        <a href="sejarah.php" class="list-group-item list-group-item-action"><i class="fas fa-book me-2"></i>Sejarah</a>
-        <a href="visi_misi.php" class="list-group-item list-group-item-action"><i class="fas fa-lightbulb me-2"></i> Visi dan Misi</a>
-        <a href="struktur_organisasi.php" class="list-group-item list-group-item-action"><i class="fas fa-sitemap me-2"></i>Struktur Organisasi</a>
+        <a href="sejarah" class="list-group-item list-group-item-action"><i class="fas fa-book me-2"></i>Sejarah</a>
+        <a href="visi_misi" class="list-group-item list-group-item-action"><i class="fas fa-lightbulb me-2"></i> Visi dan Misi</a>
+        <a href="struktur_organisasi" class="list-group-item list-group-item-action"><i class="fas fa-sitemap me-2"></i>Struktur Organisasi</a>
       </div>
-      <a href="berita.php" class="list-group-item list-group-item-action"><i class="fas fa-newspaper me-2"></i> Berita</a>
-      <a href="ppdb.php" class="list-group-item list-group-item-action <?= ($currentPage == 'ppdb.php') ? 'active-page' : '' ?>"><i class="fas fa-users me-2"></i> PPDB</a>
-      <a href="prestasi.php" class="list-group-item list-group-item-action"><i class="fas fa-trophy me-2"></i> Prestasi</a>
+      <a href="berita" class="list-group-item list-group-item-action"><i class="fas fa-newspaper me-2"></i> Berita</a>
+      <a href="ppdb" class="list-group-item list-group-item-action <?= ($currentPage == 'ppdb.php') ? 'active-page' : '' ?>"><i class="fas fa-users me-2"></i> PPDB</a>
+      <a href="prestasi" class="list-group-item list-group-item-action"><i class="fas fa-trophy me-2"></i> Prestasi</a>
       <a class="list-group-item list-group-item-action d-flex align-items-center"
         data-bs-toggle="collapse" data-bs-target="#informasiMenu" role="button" aria-expanded="false">
         <i class="fas fa-info-circle me-2"></i> Informasi <i class="fas fa-caret-down ms-auto"></i>
       </a>
       <div class="collapse" id="informasiMenu">
-        <a href="ekstrakulikuler.php" class="list-group-item list-group-item-action"><i class="fas fa-swimmer me-2"></i> Ekstrakurikuler</a>
-        <a href="fasilitas.php" class="list-group-item list-group-item-action"><i class="fas fa-building me-2"></i> Fasilitas</a>
-        <a href="guru_staff.php" class="list-group-item list-group-item-action"><i class="fas fa-chalkboard-teacher me-2"></i> Guru dan Staff</a>
-        <a href="alumni.php" class="list-group-item list-group-item-action"><i class="fas fa-user-graduate me-2"></i> Alumni</a>
+        <a href="ekstrakulikuler" class="list-group-item list-group-item-action"><i class="fas fa-swimmer me-2"></i> Ekstrakurikuler</a>
+        <a href="fasilitas" class="list-group-item list-group-item-action"><i class="fas fa-building me-2"></i> Fasilitas</a>
+        <a href="guru_staff" class="list-group-item list-group-item-action"><i class="fas fa-chalkboard-teacher me-2"></i> Guru dan Staff</a>
+        <a href="alumni" class="list-group-item list-group-item-action"><i class="fas fa-user-graduate me-2"></i> Alumni</a>
       </div>
-      <a href="kelola_admin.php" class="list-group-item list-group-item-action <?= ($currentPage == 'kelola_admin.php') ? 'active-page' : '' ?>">
+      <a href="kelola_admin" class="list-group-item list-group-item-action <?= ($currentPage == 'kelola_admin.php') ? 'active-page' : '' ?>">
         <i class="fas fa-user-shield me-2"></i> Kelola Admin
       </a>
     </div>
@@ -160,18 +160,18 @@ $list = $conn->query("SELECT * FROM ppdb ORDER BY updated_at DESC");
       <!-- Profil (kanan atas) -->
       <ul class="navbar-nav ms-auto">
         <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle text-white" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown">
+            <a class="nav-link dropdown-toggle text-white" id="navbarDropdown" href="" role="button" data-bs-toggle="dropdown">
             <i class="fas fa-user fa-fw" style="color: white;"></i>
             </a>
             <ul class="dropdown-menu dropdown-menu-end shadow">
             <li>
-                <a class="dropdown-item d-flex align-items-center" href="profil_admin.php">
+                <a class="dropdown-item d-flex align-items-center" href="profil_admin">
                 <i class="fas fa-id-card me-2 text-secondary"></i> Profil Saya
                 </a>
             </li>
             <li><hr class="dropdown-divider" /></li>
             <li>
-                <a class="dropdown-item d-flex align-items-center text-danger" href="logout.html">
+                <a class="dropdown-item d-flex align-items-center text-danger" href="logout">
                 <i class="fas fa-sign-out-alt me-2"></i> Logout
                 </a>
             </li>

@@ -3,7 +3,7 @@ session_start();
 include('../db.php');
 
 if (!isset($_SESSION['admin_id'])) {
-    header("Location: login.php");
+    header("Location: login");
     exit;
 }
 
@@ -131,8 +131,8 @@ body, html {
 
     <!-- Buttons -->
     <div class="button-group">
-        <a href="change_pass.php" class="btn btn-primary">Ganti Kata Sandi</a>
-        <a href="index.php" class="btn btn-secondary">Kembali ke Dashboard</a>
+        <a href="change_pass" class="btn btn-primary">Ganti Kata Sandi</a>
+        <a href="index" class="btn btn-secondary">Kembali ke Dashboard</a>
     </div>
 </div>
 </body>
