@@ -37,7 +37,7 @@ while ($row = $tahunQuery->fetch_assoc()) {
 
 
 // Ambil semua prestasi sekaligus
-$prestasiQuery = $conn->query("SELECT * FROM prestasi ORDER BY tahun_pelajaran DESC");
+$prestasiQuery = $conn->query("SELECT * FROM prestasi ORDER BY tahun_pelajaran DESC, nama ASC");
 while ($row = $prestasiQuery->fetch_assoc()) {
     $allPrestasi[$row['tahun_pelajaran']][] = $row;
 }
@@ -268,7 +268,7 @@ nav ul li a.parent-active {
 /*  PRESTASI */
 
   .container {
-    max-width: 850px;
+    max-width: 1100px;
     margin: auto;
     padding: 40px 20px;
   }
@@ -526,6 +526,7 @@ nav ul li a.parent-active {
         <th>Nama</th>
         <th>Kelas</th>
         <th>Nama Prestasi</th>
+        <th>Foto</th>
       </tr>
     </thead>
     <tbody>
@@ -535,6 +536,14 @@ nav ul li a.parent-active {
           <td><?= htmlspecialchars($row['nama']) ?></td>
           <td><?= htmlspecialchars($row['kelas']) ?></td>
           <td><?= htmlspecialchars($row['nama_prestasi']) ?></td>
+          <td>
+            <?php if (!empty($row['foto'])): ?>
+                <img src="image/prestasi/<?= htmlspecialchars($row['foto']) ?>" 
+                    style="width:80px; height:auto; border-radius:10px;">
+            <?php else: ?>
+                <small>Tidak ada</small>
+            <?php endif; ?>
+            </td>
         </tr>
       <?php endforeach; ?>
     </tbody>
@@ -547,12 +556,22 @@ nav ul li a.parent-active {
 <!-- FOOTER -->
 
 <div class="footer-map-content">
-  <!-- Kiri: Judul & Alamat -->
+  <!-- Kiri: Judul, Alamat, Nomor Telepon -->
   <div class="map-text">
     <h4>Lokasi Kami</h4>
-    <p style="color:rgb(250, 250, 250); font-size: 14px; margin-bottom: 10px;">
+
+    <p style="color:rgb(250, 250, 250); font-size: 14px; margin-bottom: 6px;">
       <?= htmlspecialchars($kontak['alamat'] ?? 'Alamat belum tersedia') ?>
     </p>
+
+    <!-- Nomor Telepon (tanpa icon, pakai +) -->
+    <?php if (!empty($kontak['no_whatsapp'])): 
+        $onlyNumber = preg_replace('/\D/', '', $kontak['no_whatsapp']); 
+      ?>
+        <p style="color:rgb(250, 250, 250); font-size: 14px; margin-bottom: 10px;">
+          <strong>No. Telepon:</strong> +<?= $onlyNumber ?>
+        </p>
+      <?php endif; ?>
   </div>
 
   <!-- Tengah: Google Maps -->

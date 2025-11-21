@@ -586,14 +586,24 @@ nav ul li a.parent-active {
 <!-- FOOTER -->
 
 <div class="footer-map-content">
-  <!-- Kiri: Judul & Alamat -->
+  <!-- Kiri: Judul, Alamat, Nomor Telepon -->
   <div class="map-text">
     <h4>Lokasi Kami</h4>
-    <p style="color:rgb(250, 250, 250); font-size: 14px; margin-bottom: 10px;">
+
+    <p style="color:rgb(250, 250, 250); font-size: 14px; margin-bottom: 6px;">
       <?= htmlspecialchars($kontak['alamat'] ?? 'Alamat belum tersedia') ?>
     </p>
-  </div>
 
+    <!-- Nomor Telepon (tanpa icon, pakai +) -->
+    <?php if (!empty($kontak['no_whatsapp'])): 
+        $onlyNumber = preg_replace('/\D/', '', $kontak['no_whatsapp']); 
+      ?>
+        <p style="color:rgb(250, 250, 250); font-size: 14px; margin-bottom: 10px;">
+          <strong>No. Telepon:</strong> +<?= $onlyNumber ?>
+        </p>
+      <?php endif; ?>
+  </div>
+  
   <!-- Tengah: Google Maps -->
   <div class="map-iframe">
     <?php if (!empty($kontak['link_gmaps'])): ?>

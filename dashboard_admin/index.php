@@ -1,6 +1,12 @@
 <?php
 include '../db.php';
 
+$headerImages = [];
+$result = $conn->query("SELECT gambar_header FROM header LIMIT 3");
+while ($row = $result->fetch_assoc()) {
+    $headerImages[] = $row['gambar_header'];
+}
+
 $currentPage = basename($_SERVER['PHP_SELF']);
 
 function getImageContent($file) {
@@ -12,29 +18,39 @@ function getImageContent($file) {
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // --- UPLOAD GAMBAR HEADER ---
-    if (isset($_FILES['gambar_header']) && $_FILES['gambar_header']['error'] === 0) {
-        // Hapus gambar lama dari folder dan database
-        $old = $conn->query("SELECT gambar_header FROM header");
-        while ($row = $old->fetch_assoc()) {
-            $old_path = "../image/header/" . $row['gambar_header'];
-            if (file_exists($old_path)) {
-                unlink($old_path);
-            }
+    if (!empty($_FILES['gambar_header']['name'][0])) {
+
+    // Hapus semua gambar lama
+    $old = $conn->query("SELECT gambar_header FROM header");
+    while ($row = $old->fetch_assoc()) {
+        $old_path = "../image/header/" . $row['gambar_header'];
+        if (file_exists($old_path)) {
+            unlink($old_path);
         }
-        $conn->query("DELETE FROM header");
+    }
 
-        // Upload gambar baru
-        $nama_asli = basename($_FILES['gambar_header']['name']);
+    // Hapus isi tabel
+    $conn->query("DELETE FROM header");
+
+    // Upload maksimal 3 file
+    foreach ($_FILES['gambar_header']['name'] as $key => $name) {
+
+        if ($_FILES['gambar_header']['error'][$key] !== 0) continue;
+
+        $nama_asli = basename($name);
         $nama_baru = preg_replace('/[^a-zA-Z0-9_\-\.]/', '_', $nama_asli);
-        $target_path = "../image/header/" . $nama_baru;
+        $target = "../image/header/" . $nama_baru;
 
-        if (move_uploaded_file($_FILES['gambar_header']['tmp_name'], $target_path)) {
+        if (move_uploaded_file($_FILES['gambar_header']['tmp_name'][$key], $target)) {
+
             $stmt = $conn->prepare("INSERT INTO header (gambar_header) VALUES (?)");
             $stmt->bind_param("s", $nama_baru);
             $stmt->execute();
             $stmt->close();
         }
     }
+}
+
 
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -362,27 +378,20 @@ $result_program = mysqli_query($conn, "SELECT * FROM program_unggulan ORDER BY i
   </script>
 <?php endif; ?>
 
-
 <div class="container my-5">
-  <h4 class="mb-3">Gambar Header</h4>
+  <h4 class="mb-3">Gambar Header (Maksimal 3)</h4>
 
-  <?php if ($headerImage): ?>
-    <div class="mb-4 text-center">
-<div class="mb-4 text-start"> <!-- text-end biar ke kanan -->
-  <img src="../image/header/<?= htmlspecialchars($headerImage) ?>" 
-       alt="Header"
-       style="width: 100%; max-width: 500px; height: 150px; object-fit: cover; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.2);">
+  <?php foreach ($headerImages as $img): ?>
+    <img src="../image/header/<?= htmlspecialchars($img) ?>"
+         style="width:100%; max-width:300px; height:150px; object-fit:cover; border-radius:10px; margin-bottom:10px;">
+  <?php endforeach; ?>
+
+  <input type="file" name="gambar_header[]" class="form-control mb-2" accept="image/*">
+  <input type="file" name="gambar_header[]" class="form-control mb-2" accept="image/*">
+  <input type="file" name="gambar_header[]" class="form-control mb-2" accept="image/*">
+
+  <small class="text-muted">Kosongkan input yg tidak ingin diganti.</small>
 </div>
-</div>
-
-  <?php else: ?>
-    <p>Belum ada gambar header yang diunggah.</p>
-  <?php endif; ?>
-
-  <input type="file" name="gambar_header" class="form-control mb-3" accept="image/*">
-  <small class="text-muted">Kosongkan jika tidak ingin mengganti gambar header.</small>
-</div>
-
 
 
 

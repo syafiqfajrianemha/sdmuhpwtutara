@@ -199,8 +199,9 @@ nav ul li a.parent-active {
 
 .container {
   max-width: 1200px;
-  margin: auto;
-  padding: 20px;
+  margin: 0 auto;
+  padding-left: 10px;
+  padding-right: 10px;
 }
 .sejarah-header {
   position: relative;
@@ -241,19 +242,15 @@ nav ul li a.parent-active {
   font-weight: 700;
   margin-top: 10px;
 }
-
-
 .judul-sejarah {
   font-size: 48px;
   font-weight: bold;
   margin: 0;
 }
-
-
 .sejarah-content {
-  margin: 0 auto;
-  max-width: 900px;
-  text-align: center;
+  margin-left: 180px;
+  width: 900px;
+  text-align: left;
 }
 
 .gambar-sejarah {
@@ -262,18 +259,17 @@ nav ul li a.parent-active {
   margin-top: 15px;
   margin-bottom: 30px;
   display: block;
-  margin-left: auto;
-  margin-right: auto;
+  margin-left: 0;
+  margin-right: 0;
 }
 .deskripsi-sejarah {
-  padding: 20px 40px;
+  padding: 20px 0;
   font-size: 16px;
   line-height: 1.8;
   text-align: justify;
   color: #333;
+  max-width: 90%; /* biar tidak kepanjangan */
 }
-
-
 .footer-sejarah {
   background-color: #bcd3f3;
   padding: 30px 20px;
@@ -448,12 +444,22 @@ nav ul li a.parent-active {
 <!-- FOOTER -->
 
 <div class="footer-map-content">
-  <!-- Kiri: Judul & Alamat -->
+  <!-- Kiri: Judul, Alamat, Nomor Telepon -->
   <div class="map-text">
     <h4>Lokasi Kami</h4>
-    <p style="color:rgb(250, 250, 250); font-size: 14px; margin-bottom: 10px;">
+
+    <p style="color:rgb(250, 250, 250); font-size: 14px; margin-bottom: 6px;">
       <?= htmlspecialchars($kontak['alamat'] ?? 'Alamat belum tersedia') ?>
     </p>
+
+    <!-- Nomor Telepon (tanpa icon, pakai +) -->
+    <?php if (!empty($kontak['no_whatsapp'])): 
+        $onlyNumber = preg_replace('/\D/', '', $kontak['no_whatsapp']); 
+      ?>
+        <p style="color:rgb(250, 250, 250); font-size: 14px; margin-bottom: 10px;">
+          <strong>No. Telepon:</strong> +<?= $onlyNumber ?>
+        </p>
+      <?php endif; ?>
   </div>
 
   <!-- Tengah: Google Maps -->

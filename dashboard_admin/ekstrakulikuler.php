@@ -43,14 +43,14 @@ if (isset($_POST['tambah'])) {
 
     $imagePath = null;
     if (!empty($_FILES['image']['name'])) {
-        $uploadDir = '../image/ekstrakulikuler/';
+        $uploadDir = 'image/ekstrakulikuler/';
         if (!is_dir($uploadDir)) mkdir($uploadDir, 0755, true);
 
         $originalName = basename($_FILES['image']['name']);
 $targetPath = $uploadDir . $originalName;
 
 if (move_uploaded_file($_FILES['image']['tmp_name'], $targetPath)) {
-    $imagePath = $targetPath;
+    $imagePath = $originalName;
 }
 }
 
@@ -72,14 +72,14 @@ if (isset($_POST['update'])) {
 
     $imagePath = $imageLama;
     if (!empty($_FILES['image']['name'])) {
-        $uploadDir = '../image/ekstrakulikuler/';
+        $uploadDir = 'image/ekstrakulikuler/';
         if (!is_dir($uploadDir)) mkdir($uploadDir, 0755, true);
 
         $originalName = basename($_FILES['image']['name']);
 $targetPath = $uploadDir . $originalName;
 
 if (move_uploaded_file($_FILES['image']['tmp_name'], $targetPath)) {
-    $imagePath = $targetPath;
+    $imagePath = $originalName;
 
     // Hapus file lama kalau beda
     if ($imageLama && file_exists($imageLama) && $imageLama != $imagePath) {
@@ -365,21 +365,23 @@ if (isset($_GET['hapus'])) {
                 <td><?= nl2br(htmlspecialchars($row['deskripsi'])) ?></td>
                 <td>
                     <?php if (!empty($row['image'])): ?>
-                        <img src="<?= $row['image'] ?>" alt="Image" style="max-height: 60px;">
+                        <img src="../image/ekstrakulikuler/<?= $row['image'] ?>" alt="Image" style="max-height: 60px;">
                     <?php else: ?>
                         -
                     <?php endif; ?>
                 </td>
                 <td class="text-center">
                   <a href="ekstrakulikuler?edit=<?= $row['id'] ?>" 
-                    class="btn btn-warning btn-sm action-btn me-2">
+                    class="btn btn-warning btn-sm d-flex align-items-center justify-content-center action-btn">
                     <i class="fas fa-edit me-1"></i>Edit
                   </a>
+
                   <a href="ekstrakulikuler?hapus=<?= $row['id'] ?>" 
                     onclick="return confirm('Yakin hapus data ini?')" 
-                    class="btn btn-danger btn-sm action-btn">
+                    class="btn btn-danger btn-sm d-flex align-items-center justify-content-center action-btn">
                     <i class="fas fa-trash-alt me-1"></i>Hapus
                   </a>
+
                 </td>
 
 

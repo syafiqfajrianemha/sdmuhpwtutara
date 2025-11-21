@@ -30,13 +30,20 @@ if (isset($_POST['tambah'])) {
     $nama_prestasi = $conn->real_escape_string($_POST['nama_prestasi']);
     $tahun_pelajaran = $conn->real_escape_string($_POST['tahun_pelajaran']);
 
-    $conn->query("INSERT INTO prestasi (nama, kelas, nama_prestasi, tahun_pelajaran) 
-                  VALUES ('$nama', '$kelas', '$nama_prestasi', '$tahun_pelajaran')");
+    // UPLOAD FOTO
+    $fotoName = null;
+    if (!empty($_FILES['foto']['name'])) {
+        $fotoName = time() . '_' . basename($_FILES['foto']['name']);
+        $target = "../image/prestasi/" . $fotoName;
+        move_uploaded_file($_FILES['foto']['tmp_name'], $target);
+    }
+
+    $conn->query("INSERT INTO prestasi (nama, kelas, nama_prestasi, tahun_pelajaran, foto) 
+                  VALUES ('$nama', '$kelas', '$nama_prestasi', '$tahun_pelajaran', '$fotoName')");
     $_SESSION['success'] = "Data prestasi berhasil ditambahkan.";
     header("Location: prestasi");
     exit;
 }
-
 
 // Handle update
 if (isset($_POST['update'])) {
@@ -46,9 +53,27 @@ if (isset($_POST['update'])) {
     $nama_prestasi = $conn->real_escape_string($_POST['nama_prestasi']);
     $tahun_pelajaran = $conn->real_escape_string($_POST['tahun_pelajaran']);
 
+    // ambil foto lama
+    $old = $conn->query("SELECT foto FROM prestasi WHERE id=$id")->fetch_assoc();
+    $oldFoto = $old['foto'];
+
+    $newFoto = $oldFoto;
+
+    // jika upload foto baru
+    if (!empty($_FILES['foto']['name'])) {
+        // hapus foto lama
+        if ($oldFoto && file_exists("../image/prestasi/" . $oldFoto)) {
+            unlink("../image/prestasi/" . $oldFoto);
+        }
+
+        $newFoto = time() . '_' . basename($_FILES['foto']['name']);
+        move_uploaded_file($_FILES['foto']['tmp_name'], "../image/prestasi/" . $newFoto);
+    }
+
     $conn->query("UPDATE prestasi 
-                  SET nama='$nama', kelas='$kelas', nama_prestasi='$nama_prestasi', tahun_pelajaran='$tahun_pelajaran' 
-                  WHERE id=$id");
+        SET nama='$nama', kelas='$kelas', nama_prestasi='$nama_prestasi', tahun_pelajaran='$tahun_pelajaran', foto='$newFoto'
+        WHERE id=$id");
+
     $_SESSION['success'] = "Data prestasi berhasil diperbarui.";
     header("Location: prestasi");
     exit;
@@ -238,7 +263,7 @@ $data = $conn->query("SELECT * FROM prestasi ORDER BY id DESC");
 
   <div class="card mb-4">
     <div class="card-body">
-      <form method="POST" autocomplete="off">
+      <form method="POST" enctype="multipart/form-data" autocomplete="off">
         <?php if ($editData): ?>
           <input type="hidden" name="id" value="<?= $editData['id'] ?>">
         <?php endif; ?>
@@ -259,6 +284,16 @@ $data = $conn->query("SELECT * FROM prestasi ORDER BY id DESC");
           <input type="text" name="tahun_pelajaran" class="form-control" required 
                 placeholder="contoh: 2024/2025"
                 value="<?= htmlspecialchars($editData['tahun_pelajaran'] ?? '') ?>">
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Foto Prestasi</label>
+          <input type="file" name="foto" class="form-control" accept="../image/*">
+          
+          <?php if ($editData && !empty($editData['foto'])): ?>
+            <p class="mt-2">Foto sekarang:</p>
+            <img src="../image/prestasi/<?= $editData['foto'] ?>" 
+                width="120" class="rounded border">
+          <?php endif; ?>
         </div>
 
         <button type="submit" name="<?= $editData ? 'update' : 'tambah' ?>" class="btn btn-primary">
@@ -281,6 +316,7 @@ $data = $conn->query("SELECT * FROM prestasi ORDER BY id DESC");
           <th>Kelas</th>
           <th>Nama Prestasi</th>
           <th>Tahun Pelajaran</th>
+          <th>Foto</th>
           <th>Aksi</th>
         </tr>
       </thead>
@@ -292,6 +328,14 @@ $data = $conn->query("SELECT * FROM prestasi ORDER BY id DESC");
           <td><?= htmlspecialchars($row['kelas']) ?></td>
           <td><?= htmlspecialchars($row['nama_prestasi']) ?></td>
           <td><?= htmlspecialchars($row['tahun_pelajaran']) ?></td>
+          <td class="text-center">
+          <?php if ($row['foto']): ?>
+              <img src="../image/prestasi/<?= $row['foto'] ?>" width="45" class="rounded">
+          <?php else: ?>
+              <span class="text-muted">Tidak ada</span>
+          <?php endif; ?>
+        </td>
+
           <td class="text-center">
             <a href="?edit=<?= $row['id'] ?>" class="btn btn-warning btn-sm d-block mb-2 action-btn">
               <i class="fas fa-edit me-1"></i>Edit

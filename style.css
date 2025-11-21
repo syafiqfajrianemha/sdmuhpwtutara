@@ -1,3 +1,4 @@
+
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
 
 /* Reset margin and padding for body to remove spaces */
@@ -94,6 +95,7 @@ nav ul li a.parent-active:hover {
   top: 100%;
   left: 0;
   min-width: 180px;
+  font-size: 15px;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
   z-index: 1000;
   padding: 0;
@@ -142,59 +144,133 @@ nav ul li a.parent-active:hover {
 }
 
 /* Header Section */
+
+/* Wrapper slider */
+.header-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  z-index: 10; /* teks paling depan */
+}
+
+.nama_sekolah {
+  text-align: center;
+  font-weight: 700;
+  color: white;
+  text-shadow: 0 0 8px rgba(0,0,0,0.45);
+  font-family: 'Poppins', sans-serif;
+  line-height: 1.3;
+  letter-spacing: 10px;
+  margin: 0;
+  font-size: 5rem;
+  position: relative;
+  z-index: 10 !important; /* tetap di atas overlay */
+  padding: 0 20px;
+}
+
+/* HEADER SECTION */
 .header-section {
   position: relative;
   width: 100%;
   height: 100vh;
   overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
 }
 
-/* Background image */
+/* Image */
 .header-section img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  display: block;
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 1;
 }
 
-/* Overlay hitam transparan */
-.header-section::before {
+/* Slide */
+.header-section .swiper-slide {
+  width: 100% !important;
+  height: 100vh;
+  position: relative;
+  z-index: 1; /* di atas overlay */
+}
+
+.header-section .swiper-slide img {
+  position: relative;
+  z-index: 0;
+}
+
+/* Overlay (per slide) */
+.header-section .swiper-slide::before {
   content: "";
   position: absolute;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  background: rgba(0, 0, 0, 0.82); /* atur 0.3 - 0.6 sesuai gelap yang diinginkan */
-  z-index: 2;
+  inset: 0;
+  background: rgba(0,0,0,0.7);
+  z-index: 1; /* overlay paling bawah */
 }
 
-/* Konten di atas gambar */
-.header-content {
-  position: relative;
-  z-index: 3;
+/* HAPUS overlay global, agar tidak nutupin teks */
+.header-section::before {
+  display: none !important;
+}
+
+/* Pagination */
+.header-section .swiper-pagination {
+  z-index: 20 !important;
+}
+
+/* === HEADER SWIPER BUTTONS === */
+.header-btn-prev,
+.header-btn-next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 20;
+  width: 55px;
+  height: 55px;
+  background: rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(5px);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+  font-weight: bold;
   color: white;
+  cursor: pointer;
+  transition: 0.3s ease;
 }
 
-/* Styling nama-sekolah sesuai yang kamu mau */
-.nama_sekolah {
-  text-align: center;
-  font-weight: 700;
-  color: white;
-  text-shadow: 2px 2px 6px rgba(0,0,0,0.9);
-  font-family: 'Poppins', sans-serif;
-  line-height: 1.3; /* default 1.2 → dijauhin sedikit */
-  letter-spacing: 10px;
-  margin: 0;
-  font-size: 5rem;
+.header-btn-prev:hover,
+.header-btn-next:hover {
+  background: rgba(255, 255, 255, 0.45);
 }
 
+.header-btn-prev { left: 25px; }
+.header-btn-next { right: 25px; }
+
+.header-section .swiper-pagination {
+  bottom: 35px !important;
+  z-index: 20;
+}
+
+.header-section .swiper-pagination-bullet {
+  width: 12px;
+  height: 12px;
+  background: rgba(255, 255, 255, 0.7);
+  opacity: 1;
+  transition: 0.3s;
+}
+
+.header-section .swiper-pagination-bullet-active {
+  background: white;
+  transform: scale(1.3);
+}
+
+.header-btn-prev.disabled,
+.header-btn-next.disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  pointer-events: none;
+}
 /* KEUNGGULAN SEKOLAH */
 .highlight {
   display: flex;
@@ -715,11 +791,10 @@ nav ul li a.parent-active:hover {
   margin-right: 30px;
   transform: translateY(-20px); /* atur posisi ke bawah secukupnya */
 }
-
-
   .stat-item {
     min-width: 80px;
     text-align: center;
+    padding-top: 50px;
   }
 .counter {
   font-size: 3.5rem;
@@ -733,6 +808,7 @@ nav ul li a.parent-active:hover {
   font-size: 2 rem; /* sebelumnya 1rem, diperbesar */
   margin: 0;
 }
+
 /* Footer Container */
 .footer-map-content {
   background-color: #003366;

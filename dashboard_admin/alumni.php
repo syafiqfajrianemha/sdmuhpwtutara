@@ -282,13 +282,15 @@ if (isset($_GET['edit_id'])) {
                   <td><?= htmlspecialchars($row['tahun_masuk']) ?></td>
                   <td><?= htmlspecialchars($row['tahun_lulus']) ?></td>
                   <td><?= nl2br(htmlspecialchars($row['pesan'])) ?></td>
-                  <td>
-                    <a href="alumni?edit_id=<?= $row['id'] ?>" class="btn btn-sm btn-warning">
+                  <td class="text-center">
+                    <a href="?edit=<?= $row['id'] ?>" 
+                      class="btn btn-warning btn-sm d-flex align-items-center justify-content-center mb-2 action-btn">
                       <i class="fas fa-edit me-1"></i> Edit
                     </a>
-                    <a href="alumni?hapus_id=<?= $row['id'] ?>" 
-                      class="btn btn-sm btn-danger" 
-                      onclick="return confirm('Yakin ingin menghapus data ini?')">
+
+                    <a href="?hapus=<?= $row['id'] ?>" 
+                      onclick="return confirm('Yakin ingin menghapus?')" 
+                      class="btn btn-danger btn-sm d-flex align-items-center justify-content-center action-btn">
                       <i class="fas fa-trash-alt me-1"></i> Hapus
                     </a>
                   </td>

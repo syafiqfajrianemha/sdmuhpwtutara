@@ -34,14 +34,15 @@ if ($resultNama && $resultNama->num_rows > 0) {
     $namaSekolah = $firstPart . "<br>" . $lastWord;
 }
 
-// Ambil gambar header
-$sqlGambar = "SELECT gambar_header FROM header LIMIT 1";
-$resultGambar = $conn->query($sqlGambar);
-$gambarHeader = "default-header.jpg";
-if ($resultGambar && $resultGambar->num_rows > 0) {
-    $rowGambar = $resultGambar->fetch_assoc();
-    $gambarHeader = $rowGambar['gambar_header'];
+// Ambil hingga 3 gambar header
+$headerImages = [];
+$result = $conn->query("SELECT gambar_header FROM header LIMIT 3");
+
+while ($row = $result->fetch_assoc()) {
+    $headerImages[] = $row['gambar_header'];
 }
+
+
 
 // Ambil data dari tabel keunggulan_sekolah
 $queryKeunggulan = "SELECT * FROM keunggulan_sekolah";
@@ -135,7 +136,10 @@ mysqli_close($conn);
   <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
-   <link rel="stylesheet" href="style.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+  <link rel="stylesheet" href="style.css">
+
 </head>
 <body>
 <nav>
@@ -178,21 +182,36 @@ mysqli_close($conn);
   </div>
 </nav>
 
+ <!-- HEADER -->
+<div class="header-section swiper headerSwiper">
+    <div class="swiper-wrapper">
 
+        <!-- SLIDE 1 (ada teks) -->
+        <div class="swiper-slide slide-1">
+            <img src="image/header/<?= htmlspecialchars($headerImages[0]) ?>" alt="Header Image">
 
+            <div class="header-content">
+                <h1 class="nama_sekolah"><?= $namaSekolah ?></h1>
+            </div>
+        </div>
 
+        <!-- SLIDE 2 & 3 (tanpa teks) -->
+        <?php for ($i = 1; $i < count($headerImages); $i++): ?>
+            <div class="swiper-slide">
+                <img src="image/header/<?= htmlspecialchars($headerImages[$i]) ?>" alt="Header Image">
+            </div>
+        <?php endfor; ?>
+    </div>
 
-<!-- Header Section -->
-<div class="header-section">
-  <div class="header-overlay"></div> <!-- lapisan hitam transparan -->
-  <img src="image/header/<?php echo htmlspecialchars($gambarHeader); ?>" alt="Header Image">
-  <div class="header-content">
-     <h1 class="nama_sekolah"><?php echo $namaSekolah; ?></h1>
-  </div>
+    <div class="swiper-pagination"></div>
+    <div class="header-btn-prev">‹</div>
+    <div class="header-btn-next">›</div>
 </div>
 
 
-<form action="index.php" method="post" enctype="multipart/form-data">
+
+
+<form action="index" method="post" enctype="multipart/form-data">
   <!-- KEUNGGULAN SEKOLAH -->
 <section class="highlight-section">
   <div class="highlight">
@@ -327,25 +346,33 @@ mysqli_close($conn);
         <a href="ekstrakulikuler?id=<?= htmlspecialchars($ekstra['id']) ?>">
         
           <?php 
-            if (!empty($ekstra['image'])) {
-              $images = explode(',', $ekstra['image']);
-              foreach ($images as $img) {
-                $img = trim($img);
-                $src = "" . $img;
-          ?>
-                <img 
-                  src="<?= htmlspecialchars($src) ?>" 
-                  alt="<?= htmlspecialchars($ekstra['nama']) ?>" 
-                  style="width: 100%; height: 180px; object-fit: cover; border-radius: 8px; margin-bottom: 8px;" />
-          <?php
-              }
-            } else {
-          ?>
-            <img 
-              src="image/ekstrakulikuler/" 
-              alt="Gambar Ekstrakulikuler" 
-              style="width: 100%; height: 180px; object-fit: cover; border-radius: 8px; margin-bottom: 8px;" />
-          <?php } ?>
+if (!empty($ekstra['image'])) {
+  $images = explode(',', $ekstra['image']);
+  foreach ($images as $img) {
+    $img = trim($img);
+
+    // Jika sudah ada image/ di dalam value dari database → pakai apa adanya
+    if (strpos($img, 'image/') !== false) {
+        $src = $img; 
+    } else {
+        // Jika hanya nama file → tambahkan foldernya
+        $src = "image/ekstrakulikuler/" . $img;
+    }
+?>
+      <img 
+        src="<?= htmlspecialchars($src) ?>" 
+        alt="<?= htmlspecialchars($ekstra['nama']) ?>" 
+        style="width: 100%; height: 180px; object-fit: cover; border-radius: 8px; margin-bottom: 8px;" />
+<?php
+  }
+} else {
+?>
+  <img 
+    src="image/ekstrakulikuler/default.jpg" 
+    alt="Gambar Ekstrakulikuler" 
+    style="width: 100%; height: 180px; object-fit: cover; border-radius: 8px; margin-bottom: 8px;" />
+<?php } ?>
+
           <!-- Tambahin nama ekstra di sini -->
           <h5 class="ekstra-nama text-center mt-2">
             <?= htmlspecialchars($ekstra['nama']) ?>
@@ -381,16 +408,29 @@ mysqli_close($conn);
 </section>
 
 
+
 <!-- FOOTER -->
 
 <div class="footer-map-content">
-  <!-- Kiri: Judul & Alamat -->
+  <!-- Kiri: Judul, Alamat, Nomor Telepon -->
   <div class="map-text">
     <h4>Lokasi Kami</h4>
-    <p style="color:rgb(250, 250, 250); font-size: 14px; margin-bottom: 10px;">
+
+    <p style="color:rgb(250, 250, 250); font-size: 14px; margin-bottom: 6px;">
       <?= htmlspecialchars($kontak['alamat'] ?? 'Alamat belum tersedia') ?>
     </p>
+
+    <!-- Nomor Telepon (tanpa icon, pakai +) -->
+    <?php if (!empty($kontak['no_whatsapp'])): 
+        $onlyNumber = preg_replace('/\D/', '', $kontak['no_whatsapp']); 
+      ?>
+        <p style="color:rgb(250, 250, 250); font-size: 14px; margin-bottom: 10px;">
+          <strong>No. Telepon:</strong> +<?= $onlyNumber ?>
+        </p>
+      <?php endif; ?>
   </div>
+
+  
 
   <!-- Tengah: Google Maps -->
   <div class="map-iframe">
@@ -446,8 +486,6 @@ mysqli_close($conn);
 </div>
 
 
-
-
 <div class="footer-copyright">
     &copy; <?= date('Y') ?> SD Muhammadiyah Purwokerto. All rights reserved.
   </div>
@@ -455,8 +493,54 @@ mysqli_close($conn);
 
 </form>
   <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
-
 <script>
+  // === slider Header ===
+const headerSwiper = new Swiper(".headerSwiper", {
+    loop: false, // WAJIB supaya ada "awal" & "akhir"
+    autoplay: false,
+    pagination: {
+        el: ".swiper-pagination",
+        clickable: true,
+    },
+    navigation: {
+        nextEl: ".header-btn-next",
+        prevEl: ".header-btn-prev",
+    },
+    effect: "fade",
+    fadeEffect: {
+        crossFade: true,
+    },
+
+    // === LOGIC DISABLE NAVIGATION ===
+    on: {
+        init() {
+            updateButtons(this);
+        },
+        slideChange() {
+            updateButtons(this);
+        }
+    }
+});
+
+function updateButtons(swiper) {
+    const prev = document.querySelector(".header-btn-prev");
+    const next = document.querySelector(".header-btn-next");
+
+    // Disable tombol prev kalau di slide pertama
+    if (swiper.isBeginning) {
+        prev.classList.add("disabled");
+    } else {
+        prev.classList.remove("disabled");
+    }
+
+    // Disable tombol next kalau di slide terakhir
+    if (swiper.isEnd) {
+        next.classList.add("disabled");
+    } else {
+        next.classList.remove("disabled");
+    }
+}
+
   // === Counter Animasi ===
   const counters = document.querySelectorAll('.counter');
   const options = { threshold: 0.5 };
@@ -489,11 +573,28 @@ mysqli_close($conn);
 
   counters.forEach(counter => observer.observe(counter));
 
-  // Inisialisasi Swiper
-  var swiper = new Swiper(".programSwiper", {
+
+  // === Swiper Program Unggulan ===
+  var programSwiper = new Swiper(".programSwiper", {
     slidesPerView: 3,
     slidesPerGroup: 3,
     spaceBetween: 30,
+
+    breakpoints: {
+      0: {
+        slidesPerView: 1,
+        slidesPerGroup: 1
+      },
+      768: {
+        slidesPerView: 2,
+        slidesPerGroup: 2
+      },
+      1024: {
+        slidesPerView: 3,
+        slidesPerGroup: 3
+      }
+    },
+
     navigation: {
       nextEl: ".swiper-button-next",
       prevEl: ".swiper-button-prev",
@@ -502,6 +603,7 @@ mysqli_close($conn);
       el: ".swiper-pagination",
       clickable: true,
     },
+
     on: {
       init: function () {
         updateNavVisibility(this);
@@ -512,27 +614,25 @@ mysqli_close($conn);
     },
   });
 
-  // Fungsi untuk sembunyikan/munculkan tombol
+
+
+  // === Fungsi untuk sembunyikan/munculkan tombol ===
   function updateNavVisibility(swiper) {
     const prev = swiper.navigation.prevEl;
     const next = swiper.navigation.nextEl;
 
-    // Sembunyikan kiri di awal
-    if (swiper.isBeginning) {
-      prev.style.display = "none";
-    } else {
-      prev.style.display = "flex";
-    }
+    if (swiper.isBeginning) prev.style.display = "none";
+    else prev.style.display = "flex";
 
-    // Sembunyikan kanan di akhir
-    if (swiper.isEnd) {
-      next.style.display = "none";
-    } else {
-      next.style.display = "flex";
-    }
+    if (swiper.isEnd) next.style.display = "none";
+    else next.style.display = "flex";
   }
+
+
 </script>
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
 </body>
 </html>
